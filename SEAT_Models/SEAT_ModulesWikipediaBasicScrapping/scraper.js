@@ -20,22 +20,43 @@ async function scrapeSeatModels() {
         const extractModelsFromTable = (tableElement) => {
             console.log(`Processing table... Rows found: ${$(tableElement).find('tr').length}`);
             $(tableElement).find('tr').each((j, row) => {
-                const links = $(row).find('a');
-                let link = null;
-                links.each((k, el) => {
-                    if ($(el).text().trim().length > 0) {
-                        link = $(el);
-                        return false;
-                    }
-                });
+                const $row = $(row);
 
-                if (link) {
+                const img = $row.find('a:has(img) img').first();
+                let imageUrl = null;
+
+                if (img.length) {
+                    imageUrl = img.attr('src');
+
+                    // Normalize Wikipedia URLs (they are often protocol-relative: //upload.wikimedia.org/...)
+                    if (imageUrl && imageUrl.startsWith('//')) {
+                        imageUrl = 'https:' + imageUrl;
+                    }
+                }
+
+                let link = $row.find('td').eq(1).find('a').first();
+
+                if (!link.length) {
+                    link = $row
+                        .find('a')
+                        .filter((i, el) => {
+                            const $el = $(el);
+                            return !$el.find('img').length && $el.text().trim().length > 0;
+                        })
+                        .first();
+                }
+
+                if (link.length) {
                     const title = link.text().trim();
                     const href = link.attr('href');
+
                     if (title && href) {
                         models.push({
-                            title: title,
-                            url: href.startsWith('http') ? href : `https://es.wikipedia.org${href}`,
+                            title,
+                            url: href.startsWith('http')
+                                ? href
+                                : `https://es.wikipedia.org${href}`,
+                            image: imageUrl, // ✅ added here
                         });
                     }
                 }
