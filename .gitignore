@@ -1,0 +1,103 @@
+# ==========================
+# Angular / Node
+# ==========================
+
+# Node modules
+node_modules/
+**/SEAT_Models/frontend/node_modules/
+
+# Build output
+dist/
+out-tsc/
+coverage/
+.tmp/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Angular CLI
+.angular/
+.angular/cache/
+.angular-locale.json
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================
+# Java / Spring Boot
+# ==========================
+
+# Compiled class files
+*.class
+
+# Packages
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Spring Boot / Maven / Gradle
+target/
+build/
+
+# Maven specific
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Gradle specific
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+build/
+out/
+
+# Eclipse / IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+*.class
+*.log
+
+# ==========================
+# OS / System
+# ==========================
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==========================
+# Others
+# ==========================
+
+# IDE specific temp files
+*.swp
+*.swo
+*.bak
+*.orig

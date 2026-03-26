@@ -10,9 +10,9 @@ import { SeatModel } from '../interfaces/seatModel';
 export class SeatModelService {
     private http = inject(HttpClient);
 
-    /** Loads all SEAT models from the static assets/models.json */
+    /** Loads all SEAT models from backend */
     getAllModels(): Observable<SeatModel[]> {
-        return this.http.get<SeatModel[]>('assets/models.json');
+        return this.http.get<SeatModel[]>('http://localhost:8080/api/cars');
     }
 
     /** Returns a single model by its index (used as ID). */
