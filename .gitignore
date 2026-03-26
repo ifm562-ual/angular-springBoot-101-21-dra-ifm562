@@ -5,6 +5,7 @@
 # Node modules
 node_modules/
 **/SEAT_Models/frontend/node_modules/
+**/SEAT_Models/scripts/node_modules/
 
 # Build output
 dist/
