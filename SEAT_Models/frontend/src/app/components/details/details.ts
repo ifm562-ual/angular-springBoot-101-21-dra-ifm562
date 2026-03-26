@@ -58,8 +58,16 @@ export class Details implements OnInit {
 
     ngOnInit() {
         const modelId = parseInt(this.route.snapshot.params['id'], 10);
-        this.seatModelService.getModelById(modelId).subscribe((model) => {
-            this.model.set(model);
+        this.seatModelService.getAllModels().subscribe((response: any) => {
+            const cars = response._embedded.cars;
+            const car = cars[modelId];
+            if (car) {
+                this.model.set({
+                    title: car.name,
+                    url: car.url,
+                    image: car.image || ''
+                });
+            }
             this.loading.set(false);
         });
     }

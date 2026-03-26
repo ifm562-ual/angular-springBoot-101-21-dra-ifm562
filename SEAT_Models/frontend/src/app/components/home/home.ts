@@ -4,9 +4,9 @@ import { SeatModel } from '../../interfaces/seatModel';
 import { SeatModelService } from '../../services/seatModelService';
 
 @Component({
-    selector: 'app-home',
-    imports: [SeatModelComponent],
-    template: `
+  selector: 'app-home',
+  imports: [SeatModelComponent],
+  template: `
     <section>
       <form>
         <input
@@ -36,37 +36,43 @@ import { SeatModelService } from '../../services/seatModelService';
       }
     </section>
   `,
-    styleUrls: ['./home.css'],
+  styleUrls: ['./home.css'],
 })
 export class Home implements OnInit {
-    private seatModelService = inject(SeatModelService);
+  private seatModelService = inject(SeatModelService);
 
-    allModels = signal<SeatModel[]>([]);
-    filteredList = signal<SeatModel[]>([]);
-    loading = signal(true);
+  allModels = signal<SeatModel[]>([]);
+  filteredList = signal<SeatModel[]>([]);
+  loading = signal(true);
 
-    ngOnInit() {
-        this.seatModelService.getAllModels().subscribe((models) => {
-            this.allModels.set(models);
-            this.filteredList.set(models);
-            this.loading.set(false);
-        });
+  ngOnInit() {
+    this.seatModelService.getAllModels().subscribe((response: any) => {
+      console.log("allModels data: ", response);
+      const models: SeatModel[] = response._embedded.cars.map((car: any) => ({
+        title: car.name,
+        url: car.url,
+        image: car.image || ''
+      }));
+      this.allModels.set(models);
+      this.filteredList.set(models);
+      this.loading.set(false);
+    });
+  }
+
+  filterResults(text: string) {
+    if (!text) {
+      this.filteredList.set(this.allModels());
+      return;
     }
+    this.filteredList.set(
+      this.allModels().filter((model) =>
+        model.title.toLowerCase().includes(text.toLowerCase())
+      )
+    );
+  }
 
-    filterResults(text: string) {
-        if (!text) {
-            this.filteredList.set(this.allModels());
-            return;
-        }
-        this.filteredList.set(
-            this.allModels().filter((model) =>
-                model.title.toLowerCase().includes(text.toLowerCase())
-            )
-        );
-    }
-
-    /** Returns the original index of a model in the full list (used as route ID). */
-    getOriginalIndex(model: SeatModel): number {
-        return this.allModels().indexOf(model);
-    }
+  /** Returns the original index of a model in the full list (used as route ID). */
+  getOriginalIndex(model: SeatModel): number {
+    return this.allModels().indexOf(model);
+  }
 }
